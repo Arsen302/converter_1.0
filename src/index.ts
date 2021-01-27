@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/users', userRouter);
 app.use('/photos', photoRouter);
 
-const startConn = async () => {
+const startConn = async (): Promise<void> => {
   try {
     await createConnection();
     console.log('DB started working!');
@@ -23,9 +23,9 @@ const startConn = async () => {
 };
 
 startConn()
-  .then(() => {
+  .then((): void => {
     app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
   })
-  .catch((err) => {
+  .catch((err): void => {
     console.log(err);
   });

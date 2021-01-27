@@ -25,7 +25,7 @@ class PhotoController {
       photo.url = url;
       photo.user = user;
 
-      const savedPhotos = await photo.save();
+      await photo.save();
       res.status(201).send('User upload new photo to convert');
     } catch (err) {
       res.status(403).send(err);
@@ -50,7 +50,7 @@ class PhotoController {
     req: express.Request,
     res: express.Response
   ): Promise<void> {
-    const deletedPhoto = await Photo.delete(req.params.id);
+    await Photo.delete(req.params.id);
 
     res.status(204).send('Photo successfully deleted');
   }

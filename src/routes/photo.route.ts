@@ -8,7 +8,7 @@ router.get('/', photoController.getAllPhoto);
 router.get('/:id', photoController.getPhoto);
 router.post(
   '/',
-  async (req, res, next) => {
+  async (req, res, next): Promise<void> => {
     try {
       await photoValidation.validateAsync(req.body);
     } catch (err) {
@@ -20,7 +20,7 @@ router.post(
 );
 router.put(
   '/:id',
-  async (req, res, next) => {
+  async (req, res, next): Promise<void> => {
     try {
       await photoValidation.validateAsync(req.body);
     } catch (err) {

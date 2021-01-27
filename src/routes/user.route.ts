@@ -9,7 +9,7 @@ router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUser);
 router.post(
   '/',
-  async (req, res, next) => {
+  async (req, res, next): Promise<void> => {
     try {
       await userValidation.validateAsync(req.body);
     } catch (err) {
@@ -21,7 +21,7 @@ router.post(
 );
 router.put(
   '/:id',
-  async (req, res, next) => {
+  async (req, res, next): Promise<void> => {
     try {
       await userValidation.validateAsync(req.body);
     } catch (err) {

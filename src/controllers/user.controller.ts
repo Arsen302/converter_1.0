@@ -24,7 +24,7 @@ class UserController {
       newUser.login = login;
       newUser.password = password;
 
-      const savedUsers = await newUser.save();
+      await newUser.save();
       res.status(201).send(`Saved a new user ${newUser.fullName}!`);
     } catch (err) {
       res.status(403).send(err);
@@ -43,7 +43,7 @@ class UserController {
   }
 
   async deleteUser(req: express.Request, res: express.Response): Promise<void> {
-    const deletedUser = await User.delete(req.params.id);
+    await User.delete(req.params.id);
 
     res.status(204).send('User successfully deleted');
   }
