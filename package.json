@@ -4,9 +4,9 @@
    "description": "",
    "main": "build/index.js",
    "scripts": {
-      "dev": "concurrently \"tsc --watch\" \"nodemon src/index.ts\"",
+      "dev": "nodemon src/index.ts",
       "start": "ts-node src/index.ts",
-      "typeorm": "./node_modules/.bin/typeorm",
+      "build": "tsc --watch",
       "typeorm:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "typeorm:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
       "typeorm:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
@@ -17,8 +17,6 @@
    "license": "ISC",
    "dependencies": {
       "amqplib": "^0.6.0",
-      "body-parser": "^1.19.0",
-      "concurrently": "^5.3.0",
       "dotenv": "^8.2.0",
       "express": "^4.16.4",
       "express-handlebars": "^5.2.0",

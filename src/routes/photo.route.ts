@@ -4,10 +4,32 @@ import photoValidation from '../validations/photo.validation';
 
 const router = Router();
 
-router.get('/photos/', photoController.getAllPhoto);
-router.get('/photos/:id', photoController.getPhoto);
-router.post('/photos', photoController.sendPhoto);
-router.put('/photos/:id', photoController.updatePhoto);
-router.delete('/photos/:id', photoController.deletePhoto);
+router.get('/', photoController.getAllPhoto);
+router.get('/:id', photoController.getPhoto);
+router.post(
+  '/',
+  async (req, res, next) => {
+    try {
+      await photoValidation.validateAsync(req.body);
+    } catch (err) {
+      res.status(403).send("This data isn't valid!");
+    }
+    next();
+  },
+  photoController.sendPhoto
+);
+router.put(
+  '/:id',
+  async (req, res, next) => {
+    try {
+      await photoValidation.validateAsync(req.body);
+    } catch (err) {
+      res.status(403).send("This data isn't valid!");
+    }
+    next();
+  },
+  photoController.updatePhoto
+);
+router.delete('/:id', photoController.deletePhoto);
 
 export default router;

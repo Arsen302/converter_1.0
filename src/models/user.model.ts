@@ -6,6 +6,7 @@ import {
   BaseEntity,
   UpdateDateColumn,
 } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 import Photo from './photo.model';
 
 @Entity('users')

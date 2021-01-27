@@ -2,19 +2,19 @@ import * as express from 'express';
 import User from '../models/user.model';
 
 class UserController {
-  async getAllUsers(req, res) {
+  async getAllUsers(_: express.Request, res: express.Response): Promise<void> {
     const allUsers = await User.find();
 
-    res.send(allUsers);
+    res.status(200).json(allUsers);
   }
 
-  async getUser(req, res) {
+  async getUser(req: express.Request, res: express.Response): Promise<void> {
     const getUser = await User.findOne(req.params.id);
 
-    res.send(getUser);
+    res.status(200).json(getUser);
   }
 
-  async createUser(req, res) {
+  async createUser(req: express.Request, res: express.Response): Promise<void> {
     const { fullName, login, password } = req.body;
 
     try {
@@ -25,27 +25,27 @@ class UserController {
       newUser.password = password;
 
       const savedUsers = await newUser.save();
-      res.send(`Saved a new user ${newUser.fullName}!`);
+      res.status(201).send(`Saved a new user ${newUser.fullName}!`);
     } catch (err) {
-      console.log(err);
+      res.status(403).send(err);
     }
   }
 
-  async updateUser(req, res) {
+  async updateUser(req: express.Request, res: express.Response): Promise<void> {
     try {
       const updateUser = await User.findOne(req.params.id);
       await User.merge(updateUser, req.body);
       const result = await User.save(updateUser);
-      res.send(result);
+      res.status(201).json(result);
     } catch (err) {
-      res.send(err);
+      res.status(403).send(err);
     }
   }
 
-  async deleteUser(req, res) {
+  async deleteUser(req: express.Request, res: express.Response): Promise<void> {
     const deletedUser = await User.delete(req.params.id);
 
-    res.send('User successfully deleted');
+    res.status(204).send('User successfully deleted');
   }
 }
 
