@@ -5,7 +5,7 @@
    "main": "build/index.js",
    "scripts": {
       "dev": "nodemon src/index.ts",
-      "start": "ts-node src/index.ts",
+      "start": "ts-node -r tsconfig-paths/register src/index.ts",
       "build": "tsc --watch",
       "typeorm:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "typeorm:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
