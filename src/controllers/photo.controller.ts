@@ -56,4 +56,6 @@ class PhotoController {
   }
 }
 
+// здесь класс rabbitmq должен отправлять сообщения и файлы на конверт
+
 export default new PhotoController();
