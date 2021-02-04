@@ -9,7 +9,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 // const DB_PORT = 3000 add this port in ormconfig when working from  office;
 // const DB_PORT = 5432 add this port in ormconfig when working from  home;
-// Заменить пароль после норм установки PostgreSQL
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
