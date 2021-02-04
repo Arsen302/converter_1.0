@@ -15,11 +15,12 @@ class PhotoController {
   }
 
   async sendPhoto(req: express.Request, res: express.Response): Promise<void> {
-    const { convertedName, clientName, url, user } = req.body;
+    const { name, convertedName, clientName, url, user } = req.body;
 
     try {
       const photo = await new Photo();
 
+      photo.name = name;
       photo.convertedName = convertedName;
       photo.clientName = clientName;
       photo.url = url;

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
+import * as dotenv from 'dotenv';
 import userRouter from './routes/user.route';
 import photoRouter from './routes/photo.route';
 
