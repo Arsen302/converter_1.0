@@ -16,7 +16,7 @@ router.post(
     }
     next();
   },
-  photoController.sendPhoto
+  photoController.uploadPhoto
 );
 router.put(
   '/:id',

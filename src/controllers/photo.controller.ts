@@ -14,7 +14,10 @@ class PhotoController {
     res.status(200).json(getPhoto);
   }
 
-  async sendPhoto(req: express.Request, res: express.Response): Promise<void> {
+  async uploadPhoto(
+    req: express.Request,
+    res: express.Response
+  ): Promise<void> {
     const { name, convertedName, clientName, url, user } = req.body;
 
     try {
