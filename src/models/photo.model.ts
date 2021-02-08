@@ -5,6 +5,7 @@ import {
   BaseEntity,
   UpdateDateColumn,
   ManyToOne,
+  Generated,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import User from './user.model';
@@ -15,8 +16,7 @@ class Photo extends BaseEntity {
   id: number;
 
   @Column()
-  // @Column(uuid())
-  // unic random name with uuid
+  @Generated('uuid')
   name: string;
 
   @Column()

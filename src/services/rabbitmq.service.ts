@@ -1,7 +1,7 @@
 import * as amqp from 'amqplib';
 
 class MessageBroker {
-  async messageProducer() {
+  async messageProducer(photo) {
     amqp.connect('amqp://localhost', (connError, connection) => {
       if (connError) {
         connError;
@@ -10,7 +10,8 @@ class MessageBroker {
         if (chanError) {
           throw chanError;
         }
-        const queue = 'data_queue';
+        const queue = 'photo_queue';
+        const data = photo;
 
         channel.assertQueue(queue, {
           durable: true,
@@ -23,14 +24,12 @@ class MessageBroker {
 
         channel.consume(
           queue,
-          (message) => {
-            const secs = message.content.toString().split('.').length - 1;
-
-            console.log(' [x] Received %s', message.content.toString());
+          (data) => {
+            console.log(' [x] Received ', data);
             setTimeout(() => {
               console.log('[x] Done');
-              channel.ack(message);
-            }, secs * 1000);
+              channel.ack(data);
+            }, 1000);
           },
           {
             noAck: false,

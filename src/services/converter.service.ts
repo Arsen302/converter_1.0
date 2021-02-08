@@ -1,17 +1,19 @@
 // здесь класс rabbitmq должен получать сообщения и файлы на конверт
 import * as multer from 'multer';
+import messageBroker from 'src/services/rabbitmq.service';
 
-const convertImage = async (photo) => {
-  const storage = multer.diskStorage({
-    destination: (req, file, cb): void => {
-      cb(null, '/src/uploads');
+const convertImage = async (photo): Promise<void> => {
+  messageBroker.messageConsumer();
+  const storage = await multer.diskStorage({
+    destination: (req, file, callback): void => {
+      callback(null, '/src/uploads');
     },
-    filename: (req, file, cb): void => {
-      cb(null, file.fieldname + '-' + Date.now() + file.filename);
+    filename: (req, file, callback): void => {
+      callback(null, file.fieldname + '-' + Date.now() + file.filename);
     },
   });
 
-  const upload = await multer({ storage: storage });
+  const upload = await multer({ storage: storage }).single('image');
 };
 
 export default convertImage;
