@@ -6,13 +6,13 @@ export class AddUserIDColumnToPhotosTable1611226095681
     await queryRunner.addColumn(
       'photos',
       new TableColumn({
-        name: 'userId',
+        name: 'user_id',
         type: 'int',
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('photos', 'userId');
+    await queryRunner.dropColumn('photos', 'user_id');
   }
 }

@@ -19,30 +19,34 @@ export class CreatePhotosTable1611069855548 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'convertedName',
+            name: 'converted_name',
             type: 'varchar',
           },
           {
-            name: 'clientName',
+            name: 'client_name',
             type: 'varchar',
+          },
+          {
+            name: 'user_id',
+            type: 'int',
           },
           {
             name: 'url',
             type: 'varchar',
           },
           {
-            name: 'createdAt',
+            name: 'created_at',
             type: 'date',
             isNullable: true,
             default: 'now()',
           },
           {
-            name: 'updatedAt',
+            name: 'updated_at',
             type: 'date',
             isNullable: true,
           },
           {
-            name: 'deletedAt',
+            name: 'deleted_at',
             type: 'date',
             isNullable: true,
           },

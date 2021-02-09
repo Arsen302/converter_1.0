@@ -12,30 +12,30 @@ import Photo from './photo.model';
 @Entity('users')
 class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  fullName: string;
+  fullName!: string;
 
   @Column()
-  login: string;
+  login!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @Column()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({
     onUpdate: 'now()',
   })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @Column()
-  deletedAt: Date;
+  deletedAt!: Date;
 
   @OneToMany(() => Photo, (photo) => photo.user)
-  photos: Photo[];
+  photos!: Photo[];
 }
 
 export default User;

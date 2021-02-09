@@ -33,7 +33,7 @@ class UserController {
 
   async updateUser(req: express.Request, res: express.Response): Promise<void> {
     try {
-      const updateUser = await User.findOne(req.params.id);
+      const updateUser: any = await User.findOne(req.params.id);
       await User.merge(updateUser, req.body);
       const result = await User.save(updateUser);
       res.status(201).json(result);

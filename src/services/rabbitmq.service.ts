@@ -1,12 +1,12 @@
 import * as amqp from 'amqplib';
 
 class MessageBroker {
-  async messageProducer(photo) {
-    amqp.connect('amqp://localhost', (connError, connection) => {
+  async messageProducer(photo: any): Promise<void> {
+    amqp.connect('amqp://localhost', (connError: any, connection: any) => {
       if (connError) {
         connError;
       }
-      connection.createChannel((chanError, channel) => {
+      connection.createChannel((chanError: any, channel: any) => {
         if (chanError) {
           throw chanError;
         }
@@ -24,7 +24,7 @@ class MessageBroker {
 
         channel.consume(
           queue,
-          (data) => {
+          (data: object[]) => {
             console.log(' [x] Received ', data);
             setTimeout(() => {
               console.log('[x] Done');
@@ -39,16 +39,17 @@ class MessageBroker {
     });
   }
 
-  async messageConsumer() {
-    amqp.connect('amqp://localhost', (connError, connection) => {
+  async messageConsumer(photo: any): Promise<void> {
+    amqp.connect('amqp://localhost', (connError: any, connection: any) => {
       if (connError) {
         connError;
       }
-      connection.createChannel((chanError, channel) => {
+      connection.createChannel((chanError: any, channel: any) => {
         if (chanError) {
           throw chanError;
         }
         const queue = 'data_queue';
+        const data = photo;
 
         channel.assertQueue(queue, {
           durable: true,
@@ -61,14 +62,12 @@ class MessageBroker {
 
         channel.consume(
           queue,
-          (message) => {
-            const secs = message.content.toString().split('.').length - 1;
-
-            console.log(' [x] Received %s', message.content.toString());
+          (data: object[]) => {
+            console.log(' [x] Received %s', data);
             setTimeout(() => {
               console.log('[x] Done');
-              channel.ack(message);
-            }, secs * 1000);
+              channel.ack(data);
+            }, 1000);
           },
           {
             noAck: false,

@@ -45,7 +45,7 @@ class PhotoController {
     res: express.Response
   ): Promise<void> {
     try {
-      const updatePhoto = await Photo.findOne(req.params.id);
+      const updatePhoto: any = await Photo.findOne(req.params.id);
       await Photo.merge(updatePhoto, req.body);
       const result = await Photo.save(updatePhoto);
       res.status(201).json(result);
@@ -67,16 +67,3 @@ class PhotoController {
 // здесь класс rabbitmq должен отправлять сообщения и файлы на конверт
 
 export default new PhotoController();
-function err(
-  req: express.Request<
-    import('express-serve-static-core').ParamsDictionary,
-    any,
-    any,
-    import('qs').ParsedQs,
-    Record<string, any>
-  >,
-  res: express.Response<any, Record<string, any>>,
-  err: any
-) {
-  throw new Error('Function not implemented.');
-}

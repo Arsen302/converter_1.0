@@ -2,8 +2,8 @@
 import * as multer from 'multer';
 import messageBroker from 'src/services/rabbitmq.service';
 
-const convertImage = async (photo): Promise<void> => {
-  messageBroker.messageConsumer();
+const convertImage = async (photo: object[]): Promise<void> => {
+  messageBroker.messageConsumer(photo);
   const storage = await multer.diskStorage({
     destination: (req, file, callback): void => {
       callback(null, '/src/uploads');

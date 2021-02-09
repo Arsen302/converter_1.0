@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   Generated,
+  JoinColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import User from './user.model';
@@ -13,34 +14,38 @@ import User from './user.model';
 @Entity('photos')
 class Photo extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
   @Generated('uuid')
-  name: string;
+  name!: string;
 
   @Column()
-  convertedName: string;
+  convertedName!: string;
 
   @Column()
-  clientName: string;
+  clientName!: string;
+
+  @Column({ name: 'user_id' })
+  userId!: number;
 
   @Column()
-  url: string;
+  url!: string;
 
   @Column()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({
     onUpdate: 'now()',
   })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @Column()
-  deletedAt: Date;
+  deletedAt!: Date;
 
   @ManyToOne(() => User, (user) => user.photos)
-  user: User;
+  @JoinColumn({ name: 'user_id' })
+  user!: User;
 }
 
 export default Photo;

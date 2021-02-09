@@ -8,7 +8,7 @@ import photoRouter from './routes/photo.route';
 
 const app = express();
 dotenv.config();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 // const DB_PORT = 3000 add this port in ormconfig when working from office;
 // const DB_PORT = 5432 add this port in ormconfig when working from home;
 
