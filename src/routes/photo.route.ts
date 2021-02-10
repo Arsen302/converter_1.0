@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import photoController from '../controllers/photo.controller';
 import photoValidation from '../validations/photo.validation';
 
@@ -8,7 +8,7 @@ router.get('/', photoController.getAllPhoto);
 router.get('/:id', photoController.getPhoto);
 router.post(
   '/',
-  // async (req, res, next): Promise<void> => {
+  // async (req: Request, res: Response, next): Promise<void> => {
   //   try {
   //     await photoValidation.validateAsync(req.body);
   //   } catch (err) {
@@ -20,7 +20,7 @@ router.post(
 );
 router.put(
   '/:id',
-  async (req, res, next): Promise<void> => {
+  async (req: Request, res: Response, next): Promise<void> => {
     try {
       await photoValidation.validateAsync(req.body);
     } catch (err) {

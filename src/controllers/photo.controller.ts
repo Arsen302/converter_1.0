@@ -19,14 +19,14 @@ class PhotoController {
     req: express.Request,
     res: express.Response
   ): Promise<void> {
-    const { name, convertedName, clientName, url, user } = req.body;
+    const { name, converted_name, client_name, url, user } = req.body;
 
     try {
       const photo = await new Photo();
 
       photo.name = name;
-      photo.convertedName = convertedName;
-      photo.clientName = clientName;
+      photo.convertedName = converted_name;
+      photo.clientName = client_name;
       photo.url = url;
       photo.user = user;
 
@@ -63,7 +63,5 @@ class PhotoController {
     res.status(204).send('Photo successfully deleted');
   }
 }
-
-// здесь класс rabbitmq должен отправлять сообщения и файлы на конверт
 
 export default new PhotoController();

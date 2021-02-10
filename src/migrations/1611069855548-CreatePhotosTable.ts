@@ -10,7 +10,7 @@ export class CreatePhotosTable1611069855548 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
-            isNullable: false,
+            isNullable: true,
             isGenerated: true,
             generationStrategy: 'increment',
           },
@@ -26,10 +26,10 @@ export class CreatePhotosTable1611069855548 implements MigrationInterface {
             name: 'client_name',
             type: 'varchar',
           },
-          {
-            name: 'user_id',
-            type: 'int',
-          },
+          // {
+          //   name: 'user_id',
+          //   type: 'int',
+          // },
           {
             name: 'url',
             type: 'varchar',

@@ -5,6 +5,7 @@ import {
   OneToMany,
   BaseEntity,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import Photo from './photo.model';
@@ -14,7 +15,7 @@ class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ name: 'full_name' })
   fullName!: string;
 
   @Column()
@@ -23,19 +24,21 @@ class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Column()
+  @Column({ name: 'created_at' })
   createdAt!: Date;
 
   @UpdateDateColumn({
     onUpdate: 'now()',
+    name: 'updated_at',
   })
   updatedAt!: Date;
 
-  @Column()
+  @Column({ name: 'deleted_at' })
   deletedAt!: Date;
 
   @OneToMany(() => Photo, (photo) => photo.user)
-  photos!: Photo[];
+  // @JoinColumn({ name: 'id' })
+  photos?: Photo[];
 }
 
 export default User;

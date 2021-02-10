@@ -20,32 +20,35 @@ class Photo extends BaseEntity {
   @Generated('uuid')
   name!: string;
 
-  @Column()
+  @Column({ name: 'converted_name' })
   convertedName!: string;
 
-  @Column()
+  @Column({ name: 'client_name' })
   clientName!: string;
 
-  @Column({ name: 'user_id' })
-  userId!: number;
+  // @Column({ name: 'user_id' })
+  // userId!: number;
 
   @Column()
   url!: string;
 
-  @Column()
+  @Column({ name: 'created_at' })
   createdAt!: Date;
 
   @UpdateDateColumn({
     onUpdate: 'now()',
+    name: 'updated_at',
   })
   updatedAt!: Date;
 
-  @Column()
+  @Column({
+    name: 'deleted_at',
+  })
   deletedAt!: Date;
 
   @ManyToOne(() => User, (user) => user.photos)
   @JoinColumn({ name: 'user_id' })
-  user!: User;
+  user?: User;
 }
 
 export default Photo;
