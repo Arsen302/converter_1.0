@@ -8,6 +8,7 @@ export class AddUserIDColumnToPhotosTable1611226095681
       new TableColumn({
         name: 'user_id',
         type: 'int',
+        isNullable: true,
       })
     );
   }

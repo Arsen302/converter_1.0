@@ -1,8 +1,11 @@
 import { Router, Request, Response } from 'express';
+import * as multer from 'multer';
+import * as promisify from 'util';
+
 import userController from '../controllers/user.controller';
 import userValidation from '../validations/user.validation';
 import photoValidation from '../validations/photo.validation';
-import * as promisify from 'util';
+import { multerConfig } from '../services/converter.service';
 
 const router = Router();
 
@@ -22,11 +25,21 @@ router.post(
 );
 router.post(
   '/:id/photos',
+  // async (req: Request, res: Response, next): Promise<void> => {
+  //   try {
+  // await photoValidation.validateAsync(req.body);
+  //   } catch (err) {
+  //     res.status(403).send("This data isn't valid!");
+  //   }
+  //   next();
+  // },
+  multer(multerConfig).single('file'),
   async (req: Request, res: Response, next): Promise<void> => {
     try {
-      await photoValidation.validateAsync(req.body);
+      console.log(req.file);
+      res.status(200).send(req.file);
     } catch (err) {
-      res.status(403).send("This data isn't valid!");
+      res.status(403).send('We have error with uploading!');
     }
     next();
   },

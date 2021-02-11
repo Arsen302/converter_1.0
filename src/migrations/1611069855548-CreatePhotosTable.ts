@@ -10,7 +10,7 @@ export class CreatePhotosTable1611069855548 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
-            isNullable: true,
+            isNullable: false,
             isGenerated: true,
             generationStrategy: 'increment',
           },

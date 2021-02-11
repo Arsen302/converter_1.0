@@ -37,7 +37,7 @@ class User extends BaseEntity {
   deletedAt!: Date;
 
   @OneToMany(() => Photo, (photo) => photo.user)
-  // @JoinColumn({ name: 'id' })
+  @JoinColumn({ name: 'id' })
   photos?: Photo[];
 }
 

@@ -1,4 +1,6 @@
 import * as express from 'express';
+import * as sharp from 'sharp';
+import messageBroker from '../services/rabbitmq.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
 
@@ -36,20 +38,50 @@ class UserController {
     req: express.Request,
     res: express.Response
   ): Promise<void> {
-    const { name, converted_name, client_name, url, user } = req.body;
+    // const { name, converted_name, client_name, url, user } = req.body;
+    const { originalname, filename, path } = req.file;
+
+    // try {
+    //   const photo = await new Photo();
+
+    //   photo.name = name;
+    //   photo.convertedName = converted_name;
+    //   photo.clientName = client_name;
+    //   photo.url = url;
+    //   photo.user = user;
+
+    //   await photo.save();
+
+    //   await messageBroker.messageProducer(photo);
+
+    //   res.status(201).send('User upload new photo to convert');
+    // } catch (err) {
+    //   res.status(403).send(err);
+    // }
 
     try {
       const photo = await new Photo();
 
-      photo.name = name;
-      photo.convertedName = converted_name;
-      photo.clientName = client_name;
-      photo.url = url;
-      photo.user = user;
+      photo.name = originalname;
+      photo.convertedName = filename;
+      photo.clientName = filename;
+      photo.url = path;
 
       await photo.save();
 
-      // messageBroker.messageProducer(photo);
+      // https://sharp.pixelplumbing.com/api-output
+      // https://www.npmjs.com/package/sharp нужен класс конвертер,
+      // у которого будут методы для работы с разными форматами
+
+      // if (req.file === '.jpg' || req.file === '.jpeg') {
+      // await sharp(photo).png({ quality: 100 });
+      // } else if (req.file === '.png') {
+      //   await sharp().jpeg({ quality: 100 });
+      // } else {
+      //   return req.file
+      // }
+
+      await messageBroker.messageProducer(photo);
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {

@@ -1,19 +1,38 @@
-// здесь класс rabbitmq должен получать сообщения и файлы на конверт
-import * as multer from 'multer';
-import messageBroker from 'src/services/rabbitmq.service';
+import { Options, diskStorage } from 'multer';
+import * as sharp from 'sharp';
+import { resolve } from 'path';
+import { randomBytes } from 'crypto';
 
-const convertImage = async (photo: object[]): Promise<void> => {
-  messageBroker.messageConsumer(photo);
-  const storage = await multer.diskStorage({
+export const multerConfig = {
+  dest: resolve(__dirname, '../../src/uploads'),
+  storage: diskStorage({
     destination: (req, file, callback): void => {
-      callback(null, '/src/uploads');
+      callback(null, resolve(__dirname, '../../src/uploads'));
     },
     filename: (req, file, callback): void => {
-      callback(null, file.fieldname + '-' + Date.now() + file.filename);
+      randomBytes(16, (error, hash): void => {
+        if (error) {
+          callback(error, file.filename);
+        }
+        const filename: string = `${hash.toString('hex')}.png`;
+        callback(null, filename);
+      });
     },
-  });
+  }),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB
+  },
+  fileFilter: (req, file, callback) => {
+    const formats = ['image/jpeg', 'image/jpg', 'image/png'];
 
-  const upload = await multer({ storage: storage }).single('image');
-};
+    if (formats.includes(file.mimetype)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Format not accepted'));
+    }
+  },
+} as Options;
 
-export default convertImage;
+// const data = async (req, res) => {
+
+// }
