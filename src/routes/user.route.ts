@@ -33,7 +33,7 @@ router.post(
   //   }
   //   next();
   // },
-  multer(multerConfig).single('file'),
+  multer(multerConfig).single('photo'),
   async (req: Request, res: Response, next): Promise<void> => {
     try {
       console.log(req.file);

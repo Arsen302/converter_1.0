@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
 import * as dotenv from 'dotenv';
-import * as sharp from 'sharp';
+import * as multer from 'multer';
 import userRouter from './routes/user.route';
 import photoRouter from './routes/photo.route';
 
@@ -17,6 +17,20 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', userRouter);
 app.use('/photos', photoRouter);
+
+const storage = multer({
+  dest: '/src/uploads/',
+});
+
+const upload = multer({ dest: '/src/uploads/' });
+
+app.post(
+  '/postphotos',
+  upload.single('image'),
+  (req: express.Request, res: express.Response, next): void => {
+    console.log(req.file);
+  }
+);
 
 const startConn = async (): Promise<void> => {
   try {

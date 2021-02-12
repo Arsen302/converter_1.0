@@ -1,5 +1,6 @@
 import { Options, diskStorage } from 'multer';
 import * as sharp from 'sharp';
+import * as express from 'express';
 import { resolve } from 'path';
 import { randomBytes } from 'crypto';
 
@@ -14,7 +15,8 @@ export const multerConfig = {
         if (error) {
           callback(error, file.filename);
         }
-        const filename: string = `${hash.toString('hex')}.png`;
+        const filename: string =
+          `${hash.toString('hex')}.png` || `${hash.toString('hex')}.jpg`;
         callback(null, filename);
       });
     },
@@ -33,6 +35,20 @@ export const multerConfig = {
   },
 } as Options;
 
-// const data = async (req, res) => {
+class Converter {
+  async convertJpgToPng(req: express.Request, res: express.Response) {
+    const data = sharp().png();
+  }
 
-// }
+  async convertPngToJpg(req: express.Request, res: express.Response) {
+    const data = sharp().jpeg();
+  }
+
+  async convertSvgToPng(req: express.Request, res: express.Response) {
+    const data = sharp().png();
+  }
+
+  async convertPngToSvg(req: express.Request, res: express.Response) {
+    const data = sharp().toBuffer(); // как в svg поменять???
+  }
+}
