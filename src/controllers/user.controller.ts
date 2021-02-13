@@ -69,18 +69,6 @@ class UserController {
 
       await photo.save();
 
-      // https://sharp.pixelplumbing.com/api-output
-      // https://www.npmjs.com/package/sharp нужен класс конвертер,
-      // у которого будут методы для работы с разными форматами
-
-      // if (req.file === '.jpg' || req.file === '.jpeg') {
-      // await sharp(photo).png({ quality: 100 });
-      // } else if (req.file === '.png') {
-      //   await sharp().jpeg({ quality: 100 });
-      // } else {
-      //   return req.file
-      // }
-
       await messageBroker.messageProducer(photo);
 
       res.status(201).send('User upload new photo to convert');
