@@ -48,7 +48,8 @@ class Photo extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.photos)
   @JoinColumn({ name: 'user_id' })
-  user?: User;
+  user?: any;
+  // user?: User;
 }
 
 export default Photo;

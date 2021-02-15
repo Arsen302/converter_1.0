@@ -38,38 +38,22 @@ class UserController {
     req: express.Request,
     res: express.Response
   ): Promise<void> {
-    // const { name, converted_name, client_name, url, user } = req.body;
+    const id = req.params.id;
+    // const { id } = req.params.id;
     const { originalname, filename, path } = req.file;
-
-    // try {
-    //   const photo = await new Photo();
-
-    //   photo.name = name;
-    //   photo.convertedName = converted_name;
-    //   photo.clientName = client_name;
-    //   photo.url = url;
-    //   photo.user = user;
-
-    //   await photo.save();
-
-    //   await messageBroker.messageProducer(photo);
-
-    //   res.status(201).send('User upload new photo to convert');
-    // } catch (err) {
-    //   res.status(403).send(err);
-    // }
 
     try {
       const photo = await new Photo();
 
       photo.name = originalname;
       photo.convertedName = filename;
-      photo.clientName = filename;
+      photo.clientName = originalname;
       photo.url = path;
+      photo.user = id;
 
       await photo.save();
 
-      await messageBroker.messageProducer(photo);
+      await messageBroker.messageProduce(photo);
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {
