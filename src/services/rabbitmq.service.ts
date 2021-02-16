@@ -1,46 +1,35 @@
-import * as amqp from 'amqplib';
-
-// https://www.youtube.com/watch?v=XrkNwwVLyOY&t=236s
-// https://habr.com/ru/post/447074/
-// https://medium.com/better-programming/implementing-rabbitmq-with-node-js-93e15a44a9cc
-// https://medium.com/hepsiburadatech/migrating-rabbitmq-in-a-high-traffic-setup-39d73fcc8b04
-// https://medium.com/swlh/build-an-image-upload-application-with-react-nodejs-postgresql-and-s3-34fe13fbe572
+import * as amqp from 'amqplib/callback_api';
 
 class MessageBroker {
-  async messageProduce(photo: any): Promise<void> {
-    amqp.connect('amqp://localhost', (connError: any, connection: any) => {
+  async messageProduce(file: string): Promise<void> {
+    amqp.connect('amqp://localhost', (connError: any, conn: any) => {
       if (connError) {
-        connError;
+        console.error('[AMQP]', connError.message);
       }
-      connection.createChannel((chanError: any, channel: any) => {
-        if (chanError) {
-          throw chanError;
+
+      conn.createChannel((chanError: any, channel: any) => {
+        if (chanError.message !== 'Connection closing') {
+          console.error('[AMQP] conn error', chanError.message);
         }
-        const queue = 'photo_queue';
-        const data = photo;
+
+        const queue = 'data_queue';
+        const data = file;
 
         channel.assertQueue(queue, {
           durable: true,
         });
-        channel.prefetch(1);
-        console.log(
-          ' [*] Waiting for messages in %s. To exit press CTRL+C',
-          queue
-        );
 
-        channel.consume(
-          queue,
-          (data: object[]) => {
-            console.log(' [x] Received ', data);
-            setTimeout(() => {
-              console.log('[x] Done');
-              channel.ack(data);
-            }, 1000);
-          },
-          {
-            noAck: false,
-          }
-        );
+        channel.sendToQueue(queue, Buffer.from(data), {
+          persistent: true,
+        });
+
+        console.log('[x] Sent', data);
+
+        setTimeout(() => {
+          conn.close();
+          console.log('Closing rabbitmq channel');
+          process.exit(0);
+        }, 500);
       });
     });
   }

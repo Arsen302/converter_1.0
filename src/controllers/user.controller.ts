@@ -1,5 +1,4 @@
 import * as express from 'express';
-import * as sharp from 'sharp';
 import messageBroker from '../services/rabbitmq.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
@@ -53,7 +52,7 @@ class UserController {
 
       await photo.save();
 
-      await messageBroker.messageProduce(photo);
+      await messageBroker.messageProduce(photo.url);
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {

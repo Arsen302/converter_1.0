@@ -7,14 +7,9 @@ import photoRouter from './routes/photo.route';
 
 const app = express();
 dotenv.config();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.APP_PORT || 4000;
 // const DB_PORT = 3000 add this port in ormconfig when working from office;
 // const DB_PORT = 5432 add this port in ormconfig when working from home;
-
-// https://www.youtube.com/watch?v=srPXMt1Q0nY&list=PL55RiY5tL51q4D-B63KBnygU6opNPFk_q&index=10
-// Git Merge https://www.youtube.com/watch?v=srPXMt1Q0nY&list=PL55RiY5tL51q4D-B63KBnygU6opNPFk_q&index=10
-// Git Revert https://www.youtube.com/watch?v=g8UgXgqEJXs&list=PLnTRniWXnjf_abqo7qnrPsqo148VRYxjv&index=6
-// Git Stash https://www.youtube.com/watch?v=-QKlyw_Q2uw&list=PLnTRniWXnjf_abqo7qnrPsqo148VRYxjv&index=7
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

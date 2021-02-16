@@ -1,5 +1,4 @@
 import { Options, diskStorage } from 'multer';
-import * as sharp from 'sharp';
 import * as express from 'express';
 import { resolve } from 'path';
 import { randomBytes } from 'crypto';
