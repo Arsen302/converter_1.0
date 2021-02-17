@@ -31,7 +31,7 @@ export class CreatePhotosTable1611069855548 implements MigrationInterface {
           //   type: 'int',
           // },
           {
-            name: 'url',
+            name: 'file_path',
             type: 'varchar',
           },
           {

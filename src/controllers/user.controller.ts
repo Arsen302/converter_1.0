@@ -1,5 +1,5 @@
 import * as express from 'express';
-import messageBroker from '../services/rabbitmq.service';
+import messageBroker from '../services/producer.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
 
@@ -35,7 +35,8 @@ class UserController {
 
   async userUploadPhoto(
     req: express.Request,
-    res: express.Response
+    res: express.Response,
+    next: any
   ): Promise<void> {
     const id = req.params.id;
     // const { id } = req.params.id;
@@ -47,12 +48,14 @@ class UserController {
       photo.name = originalname;
       photo.convertedName = filename;
       photo.clientName = originalname;
-      photo.url = path;
+      photo.file_path = path;
       photo.user = id;
 
       await photo.save();
 
-      await messageBroker.messageProduce(photo.url);
+      await messageBroker.messageProduce(photo);
+
+      next();
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {

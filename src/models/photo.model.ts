@@ -30,7 +30,10 @@ class Photo extends BaseEntity {
   // userId!: number;
 
   @Column()
-  url!: string;
+  file_path!: string;
+
+  // @Column()
+  // converted_file_path!: string;
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
