@@ -6,7 +6,7 @@ export class AddConvertedColumnToPhotosTable1613576510067
     await queryRunner.addColumn(
       'photos',
       new TableColumn({
-        name: 'converted_photos',
+        name: 'converted_file_path',
         type: 'varchar',
         isNullable: true,
       })
@@ -14,6 +14,6 @@ export class AddConvertedColumnToPhotosTable1613576510067
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('photos', 'converted_photos');
+    await queryRunner.dropColumn('photos', 'converted_file_path');
   }
 }

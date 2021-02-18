@@ -26,14 +26,14 @@ class Photo extends BaseEntity {
   @Column({ name: 'client_name' })
   clientName!: string;
 
-  // @Column({ name: 'user_id' })
-  // userId!: number;
+  @Column({ name: 'user_id' })
+  userId!: number;
 
   @Column()
   file_path!: string;
 
-  // @Column()
-  // converted_file_path!: string;
+  @Column()
+  converted_file_path!: string;
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
