@@ -5,7 +5,7 @@ import * as promisify from 'util';
 import userController from '../controllers/user.controller';
 import userValidation from '../validations/user.validation';
 import photoValidation from '../validations/photo.validation';
-import { multerConfig } from '../services/converter.service';
+import { multerConfig } from '../services/upload.service';
 
 const router = Router();
 
@@ -33,10 +33,9 @@ router.post(
   //   }
   //   next();
   // },
-  multer(multerConfig).single('file'),
+  multer(multerConfig).single('photo'),
   async (req: Request, res: Response, next): Promise<void> => {
     try {
-      console.log(req.file);
       res.status(200).send(req.file);
     } catch (err) {
       res.status(403).send('We have error with uploading!');

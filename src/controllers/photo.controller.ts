@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as multer from 'multer';
 import Photo from '../models/photo.model';
-import messageBroker from 'src/services/rabbitmq.service';
+import messageBroker from 'src/services/producer.service';
 
 class PhotoController {
   async getAllPhoto(_: express.Request, res: express.Response): Promise<void> {
@@ -15,30 +15,28 @@ class PhotoController {
 
     res.status(200).json(getPhoto);
   }
-  async uploadPhoto(
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> {
-    const { name, converted_name, client_name, url, user } = req.body;
+  // async uploadPhoto(
+  //   req: express.Request,
+  //   res: express.Response
+  // ): Promise<void> {
+  //   const { name, converted_name, client_name, user } = req.body;
 
-    try {
-      const photo = await new Photo();
+  //   try {
+  //     const photo = await new Photo();
 
-      photo.name = name;
-      photo.convertedName = converted_name;
-      photo.clientName = client_name;
-      photo.url = url;
-      photo.user = user;
+  //     photo.name = name;
+  //     photo.convertedName = converted_name;
+  //     photo.clientName = client_name;
+  //     photo.file_path = url;
+  //     photo.user = user;
 
-      await photo.save();
+  //     await photo.save();
 
-      // messageBroker.messageProducer(photo);
-
-      res.status(201).send('User upload new photo to convert');
-    } catch (err) {
-      res.status(403).send(err);
-    }
-  }
+  //     res.status(201).send('User upload new photo to convert');
+  //   } catch (err) {
+  //     res.status(403).send(err);
+  //   }
+  // }
 
   async updatePhoto(
     req: express.Request,

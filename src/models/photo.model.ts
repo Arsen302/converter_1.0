@@ -26,11 +26,14 @@ class Photo extends BaseEntity {
   @Column({ name: 'client_name' })
   clientName!: string;
 
-  // @Column({ name: 'user_id' })
-  // userId!: number;
+  @Column({ name: 'user_id' })
+  userId!: number;
 
   @Column()
-  url!: string;
+  file_path!: string;
+
+  @Column()
+  converted_file_path!: string;
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
@@ -48,7 +51,8 @@ class Photo extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.photos)
   @JoinColumn({ name: 'user_id' })
-  user?: User;
+  user?: any;
+  // user?: User;
 }
 
 export default Photo;

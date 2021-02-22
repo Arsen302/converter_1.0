@@ -1,6 +1,5 @@
 import * as express from 'express';
-import * as sharp from 'sharp';
-import messageBroker from '../services/rabbitmq.service';
+import messageBroker from '../services/producer.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
 
@@ -36,52 +35,27 @@ class UserController {
 
   async userUploadPhoto(
     req: express.Request,
-    res: express.Response
+    res: express.Response,
+    next: any
   ): Promise<void> {
-    // const { name, converted_name, client_name, url, user } = req.body;
+    const id = req.params.id;
+    // const { id } = req.params.id;
     const { originalname, filename, path } = req.file;
-
-    // try {
-    //   const photo = await new Photo();
-
-    //   photo.name = name;
-    //   photo.convertedName = converted_name;
-    //   photo.clientName = client_name;
-    //   photo.url = url;
-    //   photo.user = user;
-
-    //   await photo.save();
-
-    //   await messageBroker.messageProducer(photo);
-
-    //   res.status(201).send('User upload new photo to convert');
-    // } catch (err) {
-    //   res.status(403).send(err);
-    // }
 
     try {
       const photo = await new Photo();
 
       photo.name = originalname;
       photo.convertedName = filename;
-      photo.clientName = filename;
-      photo.url = path;
+      photo.clientName = originalname;
+      photo.file_path = path;
+      photo.user = id;
 
       await photo.save();
 
-      // https://sharp.pixelplumbing.com/api-output
-      // https://www.npmjs.com/package/sharp нужен класс конвертер,
-      // у которого будут методы для работы с разными форматами
+      await messageBroker.messageProduce(photo);
 
-      // if (req.file === '.jpg' || req.file === '.jpeg') {
-      // await sharp(photo).png({ quality: 100 });
-      // } else if (req.file === '.png') {
-      //   await sharp().jpeg({ quality: 100 });
-      // } else {
-      //   return req.file
-      // }
-
-      await messageBroker.messageProducer(photo);
+      next();
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {
