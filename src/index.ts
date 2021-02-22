@@ -5,6 +5,10 @@ import * as dotenv from 'dotenv';
 import userRouter from './routes/user.route';
 import photoRouter from './routes/photo.route';
 
+// https://www.youtube.com/watch?v=d_aJdcDq6AY&t=199s
+// https://www.youtube.com/watch?v=A0CfYSVzAZI&t=397s
+// https://www.youtube.com/watch?v=H2GCkRF9eko&t=10s
+
 const app = express();
 dotenv.config();
 const PORT = process.env.APP_PORT || 4000;

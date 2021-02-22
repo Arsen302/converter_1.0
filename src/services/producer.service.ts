@@ -1,4 +1,5 @@
 import * as amqp from 'amqplib/callback_api';
+import * as express from 'express';
 
 // RabbitMQ:
 // https://www.youtube.com/watch?v=KLUJyrqlZ-w&t=485s
@@ -7,7 +8,12 @@ import * as amqp from 'amqplib/callback_api';
 class MessageBroker {
   // try writing with callback syntax
 
-  async messageProduce(file: any): Promise<void> {
+  async messageProduce(
+    // req: express.Request,
+    // res: express.Response,
+    // next: any,
+    file: any
+  ): Promise<void> {
     await amqp.connect('amqp://localhost:5672', (err: any, conn: any) => {
       if (err) {
         console.error('We have a problem with connection...', err);
