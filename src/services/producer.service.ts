@@ -8,31 +8,33 @@ import * as express from 'express';
 class MessageBroker {
   // try writing with callback syntax
 
-  async messageProduce(
-    // req: express.Request,
-    // res: express.Response,
-    // next: any,
-    file: any
-  ): Promise<void> {
+  async messageProduce(photo: any, path: string): Promise<void> {
     await amqp.connect('amqp://localhost:5672', (err: any, conn: any) => {
       if (err) {
         console.error('We have a problem with connection...', err);
       }
       console.log('[x] Connection created...');
+
       conn.createChannel((err: any, ch: any) => {
         if (err) {
           console.error('We have a problem with creating channel...', err);
         }
         console.log('[x] Channel created...');
+
         const queue = 'data_queue';
-        const data = file.file_path;
+        const image = photo;
+        const filePath = path;
+
         ch.assertQueue(queue, {
           durable: false,
         });
-        ch.sendToQueue(queue, Buffer.from(data), {
+
+        ch.sendToQueue(queue, Buffer.from(image), Buffer.from(filePath), {
           persistent: true,
         });
-        console.log('[x] Sent', data);
+
+        console.log('[x] Sent', image, filePath);
+
         setTimeout(() => {
           conn.close();
           console.log('[x] Closing rabbitmq channel');

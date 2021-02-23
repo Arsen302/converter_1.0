@@ -53,7 +53,7 @@ class UserController {
 
       await photo.save();
 
-      await messageBroker.messageProduce(photo);
+      await messageBroker.messageProduce(photo, path);
 
       next();
 
