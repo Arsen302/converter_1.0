@@ -38,8 +38,7 @@ class UserController {
     res: express.Response,
     next: any
   ): Promise<void> {
-    const id = req.params.id;
-    // const { id } = req.params.id;
+    const { id } = req.params;
     const { originalname, filename, path } = req.file;
 
     try {
@@ -48,12 +47,10 @@ class UserController {
       photo.name = originalname;
       photo.convertedName = filename;
       photo.clientName = originalname;
-      photo.file_path = path;
+      photo.filePath = path;
       photo.user = id;
 
-      await photo.save();
-
-      await messageBroker.messageProduce(photo, path);
+      await messageBroker.messageProduce(photo);
 
       next();
 

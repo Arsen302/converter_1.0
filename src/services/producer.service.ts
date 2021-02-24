@@ -8,7 +8,7 @@ import * as express from 'express';
 class MessageBroker {
   // try writing with callback syntax
 
-  async messageProduce(photo: any, path: string): Promise<void> {
+  async messageProduce(file: any): Promise<void> {
     await amqp.connect('amqp://localhost:5672', (err: any, conn: any) => {
       if (err) {
         console.error('We have a problem with connection...', err);
@@ -22,18 +22,16 @@ class MessageBroker {
         console.log('[x] Channel created...');
 
         const queue = 'data_queue';
-        const image = photo;
-        const filePath = path;
+        const image = file;
 
         ch.assertQueue(queue, {
           durable: false,
         });
 
-        ch.sendToQueue(queue, Buffer.from(image), Buffer.from(filePath), {
+        ch.sendToQueue(queue, Buffer.from(JSON.stringify(image)), {
           persistent: true,
         });
-
-        console.log('[x] Sent', image, filePath);
+        console.log('[x] Sent', JSON.stringify(image));
 
         setTimeout(() => {
           conn.close();
