@@ -38,7 +38,7 @@ class UserController {
     res: express.Response,
     next: any
   ): Promise<void> {
-    const { id } = req.params;
+    const { id }: any = req.params;
     const { originalname, filename, path } = req.file;
 
     try {
