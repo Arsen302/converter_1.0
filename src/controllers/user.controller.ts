@@ -1,5 +1,5 @@
 import * as express from 'express';
-import messageBroker from '../services/producer.service';
+import messageListner from '../services/producer.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
 
@@ -50,9 +50,7 @@ class UserController {
       photo.filePath = path;
       photo.user = id;
 
-      await messageBroker.messageProduce(photo);
-
-      next();
+      await messageListner.produce(photo);
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {

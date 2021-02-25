@@ -9,7 +9,7 @@ export default {
   logging: true,
   entities: ['src/models/*.ts'],
   migrations: ['src/migrations/*.ts'],
-  subscribers: ['src/subscribers/**/*.ts'],
+  subscribers: ['src/subscribers/*.ts'],
   cli: {
     entitiesDir: 'src/models',
     migrationsDir: 'src/migrations',

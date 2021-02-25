@@ -3,7 +3,7 @@ import * as express from 'express';
 import { resolve } from 'path';
 import { randomBytes } from 'crypto';
 
-export const multerConfig = {
+const multerConfig = {
   dest: resolve(__dirname, '../../src/uploads'),
   storage: diskStorage({
     destination: (req, file, callback): void => {
@@ -36,3 +36,5 @@ export const multerConfig = {
     }
   },
 } as Options;
+
+export default multerConfig;

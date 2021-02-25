@@ -5,7 +5,7 @@ import * as promisify from 'util';
 import userController from '../controllers/user.controller';
 import userValidation from '../validations/user.validation';
 import photoValidation from '../validations/photo.validation';
-import { multerConfig } from '../services/upload.service';
+import multerConfig from '../services/upload.service';
 
 const router = Router();
 

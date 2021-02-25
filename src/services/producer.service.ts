@@ -1,11 +1,11 @@
 import * as amqp from 'amqplib/callback_api';
 import * as express from 'express';
 
-class MessageBroker {
+class MessageListner {
   // try writing with callback syntax
 
-  async messageProduce(file: any): Promise<void> {
-    await amqp.connect('amqp://localhost:5672', (err: any, conn: any) => {
+  async produce(file: any): Promise<void> {
+    await amqp.connect(process.env.AMQP_URL, (err: any, conn: any) => {
       if (err) {
         console.error('We have a problem with connection...', err);
       }
