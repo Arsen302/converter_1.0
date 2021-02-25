@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as multer from 'multer';
-import Photo from '../models/photo.model';
 import messageBroker from 'src/services/producer.service';
+import Photo from '../models/photo.model';
 
 class PhotoController {
   async getAllPhoto(_: express.Request, res: express.Response): Promise<void> {
@@ -15,22 +15,24 @@ class PhotoController {
 
     res.status(200).json(getPhoto);
   }
+
   // async uploadPhoto(
   //   req: express.Request,
   //   res: express.Response
   // ): Promise<void> {
-  //   const { name, converted_name, client_name, user } = req.body;
+  //   const { id }: any = req.params;
+  //   const { originalname, filename, path } = req.file;
 
   //   try {
   //     const photo = await new Photo();
 
-  //     photo.name = name;
-  //     photo.convertedName = converted_name;
-  //     photo.clientName = client_name;
-  //     photo.file_path = url;
-  //     photo.user = user;
+  //     photo.name = originalname;
+  //     photo.convertedName = filename;
+  //     photo.clientName = originalname;
+  //     photo.filePath = path;
+  //     photo.user = id;
 
-  //     await photo.save();
+  //     await messageBroker.messageProduce(photo);
 
   //     res.status(201).send('User upload new photo to convert');
   //   } catch (err) {

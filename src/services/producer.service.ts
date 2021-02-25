@@ -1,10 +1,6 @@
 import * as amqp from 'amqplib/callback_api';
 import * as express from 'express';
 
-// RabbitMQ:
-// https://www.youtube.com/watch?v=KLUJyrqlZ-w&t=485s
-// https://www.youtube.com/watch?v=Cie5v59mrTg
-
 class MessageBroker {
   // try writing with callback syntax
 

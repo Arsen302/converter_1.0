@@ -14,10 +14,10 @@ export const multerConfig = {
         if (error) {
           callback(error, file.filename);
         } else if (file.mimetype === 'image/jpeg') {
-          const filename: string = `${hash.toString('hex')}.jpg`;
+          const filename = `${hash.toString('hex')}.jpg`;
           callback(null, filename);
         } else if (file.mimetype === 'image/png') {
-          const filename: string = `${hash.toString('hex')}.png`;
+          const filename = `${hash.toString('hex')}.png`;
           callback(null, filename);
         }
       });
