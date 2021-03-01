@@ -1,5 +1,4 @@
 import * as amqp from 'amqplib';
-import * as express from 'express';
 
 class MessageListner {
   async produce(file: any): Promise<void> {
