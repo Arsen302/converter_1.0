@@ -4,10 +4,10 @@ class MessageListner {
   async produce(file: any): Promise<void> {
     try {
       const conn = await amqp.connect(`${process.env.AMQP_URL}`);
-      console.log('[x] Connection created...');
+      console.log('Connection to rabbitmq created...');
 
       const ch = await conn.createChannel();
-      console.log('[x] Channel created...');
+      console.log('Channel created...');
 
       const queue = 'data_queue';
       const msg = file;
@@ -20,11 +20,11 @@ class MessageListner {
         persistent: true,
       });
 
-      console.log('[x] Sent', msg);
+      console.log('Sent:', msg);
 
       await ch.close();
       await conn.close();
-      console.log('[x] Closing rabbitmq channel');
+      console.log('Closing rabbitmq channel...');
       process.exit(0);
     } catch (err) {
       console.error(err);

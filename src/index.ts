@@ -7,7 +7,7 @@ import photoRouter from './routes/photo.route';
 
 const app = express();
 dotenv.config();
-const PORT = process.env.APP_PORT || 4000;
+const PORT = process.env.APP_PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,15 +18,15 @@ app.use('/photos', photoRouter);
 const startConn = async (): Promise<void> => {
   try {
     await createConnection();
-    console.log('DB started working!');
+    console.log('DB started working...');
   } catch (err) {
-    console.log('We have Error', err);
+    console.log('We have Error...', err);
   }
 };
 
 startConn()
   .then((): void => {
-    app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is listening on ${PORT}...`));
   })
   .catch((err): void => {
     console.log(err);
