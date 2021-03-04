@@ -1,31 +1,14 @@
 import * as Joi from 'joi';
 
 const photoValidation = Joi.object({
-  name: Joi.string().min(5).required(),
-  converted_name: Joi.string().min(5).required(),
-  client_name: Joi.string().min(5).required(),
-  url: Joi.string().required(),
-  // photo: Joi.binary()
-  //   .encoding('base64')
-  //   .max(5 * 1024 * 1024)
-  //   .required(),
-  user: Joi.number().required(),
+  fieldname: Joi.string().min(5).required(), //"photo",
+  originalname: Joi.string().min(5).required(),
+  encoding: Joi.string().min(4).required(), //'7bit',
+  mimetype: Joi.string().min(5).required(), //'image/jpeg',
+  destination: Joi.string().min(5).required(), //'D:\\arsen\\Work\\development\\internship\\projects\\converter\\src\\uploads'
+  filename: Joi.string().min(5).required(),
+  path: Joi.string().min(5).required(), // 'D:\\arsen\\Work\\development\\internship\\projects\\converter\\src\\uploads\\1bb2176bbe89e7fa8cd9a3801d8595a3.jpg',
+  size: Joi.number().max(5000000).required(),
 });
-
-// const photoValidation = Joi.object({
-//   fieldname: Joi.string().min(5).required(),
-//   originalname: Joi.string().min(5).required(), // with jpg, jpeg, png
-//   encoding: '7bit',
-//   mimetype: 'image/jpeg',
-//   destination:
-//     'C:\\Users\\arsen.arakelian\\Desktop\\projects\\converter\\src\\uploads',
-//   filename: '7bb73c1e1106658df47269644c4b0ac4.png',
-//   path:
-//     'C:\\Users\\arsen.arakelian\\Desktop\\projects\\converter\\src\\uploads\\7bb73c1e1106658df47269644c4b0ac4.png',
-//   size: Joi.binary()
-//     .encoding('base64')
-//     .max(5 * 1024 * 1024)
-//     .required(),
-// });
 
 export default photoValidation;

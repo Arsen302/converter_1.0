@@ -1,22 +1,22 @@
-import * as express from 'express';
+import { Request, Response } from 'express';
 import messageListner from '../services/producer.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
 
 class UserController {
-  async getAllUsers(_: express.Request, res: express.Response): Promise<void> {
+  async getAllUsers(_: Request, res: Response): Promise<void> {
     const allUsers = await User.find();
 
     res.status(200).json(allUsers);
   }
 
-  async getUser(req: express.Request, res: express.Response): Promise<void> {
+  async getUser(req: Request, res: Response): Promise<void> {
     const getUser = await User.findOne(req.params.id);
 
     res.status(200).json(getUser);
   }
 
-  async createUser(req: express.Request, res: express.Response): Promise<void> {
+  async createUser(req: Request, res: Response): Promise<void> {
     const { full_name, login, password } = req.body;
 
     try {
@@ -33,11 +33,7 @@ class UserController {
     }
   }
 
-  async userUploadPhoto(
-    req: express.Request,
-    res: express.Response,
-    next: any
-  ): Promise<void> {
+  async userUploadPhoto(req: Request, res: Response): Promise<void> {
     const { id }: any = req.params;
     const { originalname, filename, path } = req.file;
 
@@ -58,7 +54,7 @@ class UserController {
     }
   }
 
-  async updateUser(req: express.Request, res: express.Response): Promise<void> {
+  async updateUser(req: Request, res: Response): Promise<void> {
     try {
       const updateUser: any = await User.findOne(req.params.id);
       await User.merge(updateUser, req.body);
@@ -69,7 +65,7 @@ class UserController {
     }
   }
 
-  async deleteUser(req: express.Request, res: express.Response): Promise<void> {
+  async deleteUser(req: Request, res: Response): Promise<void> {
     await User.delete(req.params.id);
 
     res.status(204).send('User successfully deleted');
