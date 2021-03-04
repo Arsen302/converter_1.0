@@ -50,9 +50,7 @@ class UserController {
       photo.filePath = path;
       photo.user = id;
 
-      while (true) {
-        await messageListner.produce(photo);
-      }
+      await messageListner.produce(photo);
 
       res.status(201).send('User upload new photo to convert');
     } catch (err) {
