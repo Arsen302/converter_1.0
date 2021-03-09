@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as crypto from 'crypto';
 import messageListner from '../services/producer.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
@@ -16,18 +17,41 @@ class UserController {
     res.status(200).json(getUser);
   }
 
-  async createUser(req: Request, res: Response): Promise<void> {
+  async registrationUser(req: Request, res: Response): Promise<void> {
     const { full_name, login, password } = req.body;
 
     try {
+      const guest = await User.findOne(full_name);
+
+      if (guest) {
+        res.status(400).send('We have error...');
+      }
+
+      // Здесь мы хешируем пароль через crypto
+      // const hashedPassword = crypto.createHash('base64', password)
+
       const newUser = await new User();
 
       newUser.fullName = full_name;
       newUser.login = login;
-      newUser.password = password;
+      // newUser.password = hashedPassword;
 
       await newUser.save();
       res.status(201).send(`Saved a new user ${newUser.fullName}!`);
+    } catch (err) {
+      res.status(403).send(err);
+    }
+  }
+
+  async loginUser(req: Request, res: Response): Promise<void> {
+    const { full_name, login, password } = req.body;
+
+    try {
+      // Здесь должна быть авторизация не регистрация
+      // Поэтому одного find не хватит
+      const getUser = await User.findOne(req.params.id);
+
+      res.status(200).json(getUser);
     } catch (err) {
       res.status(403).send(err);
     }

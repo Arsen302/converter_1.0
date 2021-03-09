@@ -11,7 +11,7 @@ const router = Router();
 router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUser);
 router.post(
-  '/',
+  '/signup',
   async (req: Request, res: Response, next): Promise<void> => {
     try {
       await userValidation.validateAsync(req.body);
@@ -20,7 +20,19 @@ router.post(
     }
     next();
   },
-  userController.createUser
+  userController.registrationUser
+);
+router.post(
+  '/signin',
+  async (req: Request, res: Response, next): Promise<void> => {
+    try {
+      await userValidation.validateAsync(req.body);
+    } catch (err) {
+      res.status(403).send("This data isn't valid!");
+    }
+    next();
+  },
+  userController.loginUser
 );
 router.post(
   '/:id/photos',

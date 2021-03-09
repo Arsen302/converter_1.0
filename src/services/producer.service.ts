@@ -12,9 +12,7 @@ class MessageListner {
       const queue = 'data_queue';
       const msg = file;
 
-      await ch.assertQueue(queue, {
-        durable: false,
-      });
+      await ch.assertQueue(queue, { durable: true });
 
       await ch.sendToQueue(queue, Buffer.from(JSON.stringify(msg)), {
         persistent: true,

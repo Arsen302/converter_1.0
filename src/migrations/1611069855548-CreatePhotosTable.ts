@@ -26,10 +26,6 @@ export class CreatePhotosTable1611069855548 implements MigrationInterface {
             name: 'client_name',
             type: 'varchar',
           },
-          // {
-          //   name: 'user_id',
-          //   type: 'int',
-          // },
           {
             name: 'file_path',
             type: 'varchar',

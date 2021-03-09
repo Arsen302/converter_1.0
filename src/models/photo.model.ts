@@ -26,9 +26,6 @@ class Photo extends BaseEntity {
   @Column({ name: 'client_name' })
   clientName!: string;
 
-  @Column({ name: 'user_id' })
-  userId!: number;
-
   @Column({ name: 'file_path' })
   filePath!: string;
 
@@ -50,7 +47,7 @@ class Photo extends BaseEntity {
   deletedAt!: Date;
 
   @ManyToOne(() => User, (user) => user.photos)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'user' })
   user?: User;
 }
 

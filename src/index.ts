@@ -4,7 +4,6 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 import userRouter from './routes/user.route';
 import photoRouter from './routes/photo.route';
-import authRouter from './routes/auth.route';
 
 const app = express();
 dotenv.config();
@@ -15,7 +14,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', userRouter);
 app.use('/photos', photoRouter);
-app.use('/', authRouter);
 
 const startConn = async (): Promise<void> => {
   try {
