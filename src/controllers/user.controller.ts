@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 import messageListner from '../services/producer.service';
 import Photo from '../models/photo.model';
 import User from '../models/user.model';
@@ -18,25 +19,28 @@ class UserController {
   }
 
   async registrationUser(req: Request, res: Response): Promise<void> {
-    const { full_name, login, password } = req.body;
+    const { fullName, login, password } = req.body;
 
     try {
-      const guest = await User.findOne(full_name);
+      const guest = await User.findOne({ fullName });
 
       if (guest) {
-        res.status(400).send('We have error...');
+        res.status(400).send(`We have user with ${fullName} name...`);
       }
 
       // Здесь мы хешируем пароль через crypto
-      // const hashedPassword = crypto.createHash('base64', password)
+      // const hashedPassword = crypto.createHash('base64', password).toString();
+      // const token = crypto.randomBytes(64).toString('hex');
+      const hashedPassword = await bcrypt.hashSync(password, 5);
 
       const newUser = await new User();
 
-      newUser.fullName = full_name;
+      newUser.fullName = fullName;
       newUser.login = login;
-      // newUser.password = hashedPassword;
+      newUser.password = hashedPassword;
 
       await newUser.save();
+
       res.status(201).send(`Saved a new user ${newUser.fullName}!`);
     } catch (err) {
       res.status(403).send(err);
@@ -44,22 +48,33 @@ class UserController {
   }
 
   async loginUser(req: Request, res: Response): Promise<void> {
-    const { full_name, login, password } = req.body;
+    const { login, password } = req.body;
 
     try {
-      // Здесь должна быть авторизация не регистрация
-      // Поэтому одного find не хватит
-      const getUser = await User.findOne(req.params.id);
+      const user = await User.findOne({ login });
+      const userPassword: any = await user?.password;
 
-      res.status(200).json(getUser);
+      if (!user) {
+        res.status(400).send(`We can't find user with ${login} login...`);
+      }
+
+      const validPassword = await bcrypt.compareSync(password, userPassword);
+
+      if (!validPassword) {
+        res.status(400).send(`Not correct password...`);
+      }
+
+      const token = await crypto.randomBytes(64).toString('hex');
+
+      res.status(200).json(token);
     } catch (err) {
       res.status(403).send(err);
     }
   }
 
   async userUploadPhoto(req: Request, res: Response): Promise<void> {
-    const { id }: any = req.params;
     const { originalname, filename, path } = req.file;
+    const { token }: any = req.headers;
 
     try {
       const photo = await new Photo();
@@ -68,7 +83,16 @@ class UserController {
       photo.convertedName = filename;
       photo.clientName = originalname;
       photo.filePath = path;
-      photo.user = id;
+      photo.user = token;
+      // photo.user = uuid()
+
+      // нужно сделать проверку токена на валидность,
+      // оригинальный ли это токен, принадлежит он текущему юзеру или левому
+      // const invalidToken = await token;
+
+      if (!token) {
+        res.status(400).send("We can't identify your request...");
+      }
 
       await messageListner.produce(photo);
 

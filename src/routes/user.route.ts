@@ -2,7 +2,8 @@ import { Router, Request, Response } from 'express';
 import * as multer from 'multer';
 
 import userController from '../controllers/user.controller';
-import userValidation from '../validations/user.validation';
+import { signUpValidation } from '../validations/user.validation';
+import { signInValidation } from '../validations/user.validation';
 import photoValidation from '../validations/photo.validation';
 import multerConfig from '../services/upload.service';
 
@@ -14,7 +15,7 @@ router.post(
   '/signup',
   async (req: Request, res: Response, next): Promise<void> => {
     try {
-      await userValidation.validateAsync(req.body);
+      await signUpValidation.validateAsync(req.body);
     } catch (err) {
       res.status(403).send("This data isn't valid!");
     }
@@ -26,7 +27,7 @@ router.post(
   '/signin',
   async (req: Request, res: Response, next): Promise<void> => {
     try {
-      await userValidation.validateAsync(req.body);
+      await signInValidation.validateAsync(req.body);
     } catch (err) {
       res.status(403).send("This data isn't valid!");
     }
@@ -59,7 +60,7 @@ router.put(
   '/:id',
   async (req: Request, res: Response, next): Promise<void> => {
     try {
-      await userValidation.validateAsync(req.body);
+      await signUpValidation.validateAsync(req.body);
     } catch (err) {
       res.status(403).send("This data isn't valid!");
     }
