@@ -39,6 +39,18 @@ router.post(
   '/:id/photos',
   async (req: Request, res: Response, next): Promise<void> => {
     try {
+      // Здесь мы не можем получить token из-за того что он string,
+      // a не модуль, и не можем сделать проверку, поэтому переписываем все нахуй через JWT!!!
+      if (!req.headers.token === token) {
+        res.status(403).send("This token isn't valid!");
+      }
+    } catch (err) {
+      res.status(403).send("This data isn't valid!");
+    }
+    next();
+  },
+  async (req: Request, res: Response, next): Promise<void> => {
+    try {
       await photoValidation.validateAsync(req.file);
     } catch (err) {
       res.status(403).send("This data isn't valid!");
