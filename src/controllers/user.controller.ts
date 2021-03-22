@@ -51,14 +51,13 @@ class UserController {
     const { login, password } = req.body;
 
     try {
-      const user = await User.findOne({ login });
-      const userPassword: any = await user?.password;
+      const user: any = await User.findOne({ login });
 
       if (!user) {
         res.status(400).send(`We can't find user with ${login} login...`);
       }
 
-      const validPassword = await bcrypt.compareSync(password, userPassword);
+      const validPassword = await bcrypt.compareSync(password, user.password);
 
       if (!validPassword) {
         res.status(400).send(`Not correct password...`);
@@ -74,7 +73,7 @@ class UserController {
 
   async userUploadPhoto(req: Request, res: Response): Promise<void> {
     const { originalname, filename, path } = req.file;
-    const { token }: any = req.headers;
+    const { id }: any = req.params;
 
     try {
       const photo = await new Photo();
@@ -83,16 +82,12 @@ class UserController {
       photo.convertedName = filename;
       photo.clientName = originalname;
       photo.filePath = path;
-      photo.user = token;
+      photo.user = id;
       // photo.user = uuid()
 
       // нужно сделать проверку токена на валидность,
       // оригинальный ли это токен, принадлежит он текущему юзеру или левому
       // const invalidToken = await token;
-
-      if (!token) {
-        res.status(400).send("We can't identify your request...");
-      }
 
       await messageListner.produce(photo);
 
